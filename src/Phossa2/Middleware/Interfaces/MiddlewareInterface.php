@@ -14,6 +14,9 @@
 
 namespace Phossa2\Middleware\Interfaces;
 
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
+
 /**
  * MiddlewareInterface
  *
@@ -24,4 +27,19 @@ namespace Phossa2\Middleware\Interfaces;
  */
 interface MiddlewareInterface
 {
+    /**
+     * Process a request and return a response.
+     *
+     * @param  RequestInterface  $request
+     * @param  ResponseInterface $response
+     * @param  DelegateInterface $next
+     * @return ResponseInterface
+     * @public
+     * @api
+     */
+    public function process(
+        RequestInterface $request,
+        ResponseInterface $response,
+        DelegateInterface $next = null
+    )/*# : ResponseInterface */;
 }

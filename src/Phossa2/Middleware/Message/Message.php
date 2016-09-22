@@ -28,14 +28,20 @@ use Phossa2\Shared\Message\Message as BaseMessage;
 class Message extends BaseMessage
 {
     /*
-     * Package const "%s"
+     * Invalid condition "%s" supplied
      */
-    const PACKAGE_CONST = 1607191058;
+    const CONDITION_INVALID = 1609221327;
+
+    /*
+     * Invalid middleware "%s"
+     */
+    const MIDDLEWARE_INVALID = 1609221328;
 
     /**
      * {@inheritDoc}
      */
     protected static $messages = [
-        self::PACKAGE_CONST => 'Package const "%s"',
+        self::CONDITION_INVALID => 'Invalid condition "%s" supplied',
+        self::MIDDLEWARE_INVALID => 'Invalid middleware "%s"',
     ];
 }

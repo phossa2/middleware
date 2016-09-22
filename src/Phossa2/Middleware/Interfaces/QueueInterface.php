@@ -14,30 +14,29 @@
 
 namespace Phossa2\Middleware\Interfaces;
 
-use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\ResponseInterface;
-
 /**
- * DelegateInterface
+ * QueueInterface
  *
  * @package Phossa2\Middleware
  * @author  Hong Zhang <phossa@126.com>
+ * @see     MiddlewareInterface
+ * @see     DelegateInterface
  * @version 2.0.0
  * @since   2.0.0 added
  */
-interface DelegateInterface
+interface QueueInterface extends MiddlewareInterface, DelegateInterface
 {
     /**
-     * Dispatch the next available middleware and return the response.
+     * Push to the end of the queue
      *
-     * @param  RequestInterface  $request
-     * @param  ResponseInterface $response
-     * @return ResponseInterface
-     * @public
+     * @param  MiddlewareInterface $middleware
+     * @param  ConditionInterface $condition
+     * @return $this
+     * @access public
      * @api
      */
-    public function next(
-        RequestInterface $request,
-        ResponseInterface $response
-    )/*# : ResponseInterface */;
+    public function push(
+        MiddlewareInterface $middleware,
+        ConditionInterface $condition = null
+    );
 }

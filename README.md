@@ -53,6 +53,7 @@ Features
 
 - <a name="anchor"></a>**Feature One**
 
+- middleware resolver: lazy object init, use container to create
 
 APIs
 ---

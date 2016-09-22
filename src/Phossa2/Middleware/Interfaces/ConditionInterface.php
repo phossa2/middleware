@@ -18,29 +18,26 @@ use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
 /**
- * ClientMiddlewareInterface
+ * ConditionInterface
  *
  * @package Phossa2\Middleware
  * @author  Hong Zhang <phossa@126.com>
- * @see     MiddlewareInterface
  * @version 2.0.0
  * @since   2.0.0 added
  */
-interface ClientMiddlewareInterface extends MiddlewareInterface
+interface ConditionInterface
 {
     /**
-     * Process a client request and return a response.
+     * Evalute to true/false
      *
-     * Takes the incoming request and optionally modifies it before delegating
-     * to the next frame to get a response.
-     *
-     * @param RequestInterface $request
-     * @param DelegateInterface $next
-     *
-     * @return ResponseInterface
+     * @param  RequestInterface $request
+     * @param  ResponseInterface $response
+     * @return bool
+     * @access public
+     * @api
      */
-    public function process(
+    public function evaluate(
         RequestInterface $request,
-        DelegateInterface $next
-    );
+        ResponseInterface $response
+    )/*# : bool */;
 }

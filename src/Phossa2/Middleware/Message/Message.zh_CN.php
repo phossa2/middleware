@@ -25,5 +25,6 @@ use Phossa2\Middleware\Message\Message;
  * @since   2.0.0 added
  */
 return [
-    Message::PACKAGE_CONST => '',
+    Message::CONDITION_INVALID => '条件判断 "%s"错误',
+    Message::MIDDLEWARE_INVALID => '中间件 "%s"形式错误',
 ];
