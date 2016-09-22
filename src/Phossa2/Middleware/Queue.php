@@ -18,7 +18,6 @@ use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Phossa2\Shared\Base\ObjectAbstract;
 use Phossa2\Middleware\Message\Message;
-use Interop\Container\ContainerInterface;
 use Phossa2\Middleware\Exception\LogicException;
 use Phossa2\Middleware\Interfaces\QueueInterface;
 use Phossa2\Middleware\Interfaces\DelegateInterface;
@@ -44,26 +43,14 @@ class Queue extends ObjectAbstract implements QueueInterface
     protected $queue;
 
     /**
-     * container to resolve object
-     *
-     * @var    ContainerInterface
-     * @access protected
-     */
-    protected $resolver;
-
-    /**
      * Constructor
      *
      * @param  array $middlewares
-     * @param  ContainerInterface $resolver
      * @access public
      */
-    public function __construct(
-        array $middlewares = [],
-        ContainerInterface $resolver = null
-    ) {
+    public function __construct(array $middlewares = [])
+    {
         $this->queue = new \SplQueue();
-        $this->resolver = $resolver;
 
         foreach ($middlewares as $mw) {
             if (is_array($mw)) { // with condition
@@ -92,8 +79,8 @@ class Queue extends ObjectAbstract implements QueueInterface
     /**
      * Push to the end of the queue
      *
-     * @param  MiddlewareInterface|callable|string $middleware
-     * @param  ConditionInterface|callable|string|null $condition
+     * @param  MiddlewareInterface|callable $middleware
+     * @param  ConditionInterface|callable|null $condition
      * @return $this
      * @access public
      * @api
@@ -128,7 +115,7 @@ class Queue extends ObjectAbstract implements QueueInterface
     /**
      * Dispatch the next available middleware and return the response.
      *
-     * @param  RequestInterface  $request
+     * @param  RequestInterface $request
      * @param  ResponseInterface $response
      * @return ResponseInterface
      * @public
@@ -168,15 +155,13 @@ class Queue extends ObjectAbstract implements QueueInterface
         RequestInterface $request,
         ResponseInterface $response
     )/*# : ResponseInterface */ {
-        $mw = $this->resolve($middleware);
-
         // old style callable
-        if (is_callable($mw)) {
-            return $mw($request, $response, $this);
+        if (is_callable($middleware)) {
+            return $middleware($request, $response, $this);
 
         // instance of MiddlewareInterface
-        } elseif (is_object($mw) && $mw instanceof MiddlewareInterface) {
-            $mw->process($request, $response, $this);
+        } elseif (is_object($middleware) && $middleware instanceof MiddlewareInterface) {
+            return $middleware->process($request, $response, $this);
 
         // unknown middleware type
         } else {
@@ -205,15 +190,13 @@ class Queue extends ObjectAbstract implements QueueInterface
         RequestInterface $request,
         ResponseInterface $response
     )/*# : bool */ {
-        $cond = $this->resolve($condition);
-
         // old style callable
-        if (is_callable($cond)) {
-            return $cond($request, $response);
+        if (is_callable($condition)) {
+            return $condition($request, $response);
 
         // instanceof ConditionInterface
-        } elseif (is_object($cond) && $cond instanceof ConditionInterface) {
-            return $cond->evaluate($request, $response);
+        } elseif (is_object($condition) && $condition instanceof ConditionInterface) {
+            return $condition->evaluate($request, $response);
 
         // unknown type
         } else {
@@ -221,25 +204,6 @@ class Queue extends ObjectAbstract implements QueueInterface
                 Message::get(Message::CONDITION_INVALID, $condition),
                 Message::CONDITION_INVALID
             );
-        }
-    }
-
-    /**
-     * Resolve middle or condition thru a DI container
-     *
-     * @param  mixed $name
-     * @return mixed
-     * @access protected
-     */
-    protected function resolve($name)
-    {
-        try {
-            if ($this->resolver && !is_callable($name) && is_string($name)) {
-                return $this->resolver->get($name);
-            }
-            return $name;
-        } catch (\Exception $e) {
-            return $name;
         }
     }
 }
