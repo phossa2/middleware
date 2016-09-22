@@ -16,6 +16,7 @@ It requires PHP 5.4, supports PHP 7.0+ and HHVM. It is compliant with [PSR-1][PS
 [PSR-3]: http://www.php-fig.org/psr/psr-3/ "PSR-3: Logger Interface"
 [PSR-4]: http://www.php-fig.org/psr/psr-4/ "PSR-4: Autoloader"
 [PSR-5]: https://github.com/phpDocumentor/fig-standards/blob/master/proposed/phpdoc.md "PSR-5: PHPDoc"
+[Container Interop]: https://github.com/container-interop/container-interop "Container-Interop"
 
 Installation
 ---
@@ -38,11 +39,20 @@ or add the following lines to your `composer.json`
 Features
 ---
 
-- <a name="anchor"></a>**Feature One**
+- Able to [reuse](#comp) most of the double-pass middlewares out there.
 
-- middleware resolver: lazy object init, use container to create
+- Able to use a [Container Interop][Container Interop] container for
+  [resolving](#resolve) middlewares, which means lazy loading and less coding.
 
+- Able to use a middleware [queue](#queue) (or call it `stack` as in StackPHP)
+  as a generic middleware in another queue.
 
+- Able to branching out base on a [condition](#condition) in the
+
+- <a name="queue"></a>Able to push a middleware `queue` (or call it `stack`)
+  as a middleware into another (or the main) middleware queue.
+
+-
 Usage
 ---
 
