@@ -6,19 +6,17 @@
 [![Latest Stable Version](https://img.shields.io/packagist/vpre/phossa2/middleware.svg?style=flat)](https://packagist.org/packages/phossa2/middleware)
 [![License](https://poser.pugx.org/phossa2/middleware/license)](http://mit-license.org/)
 
-**phossa2/middleware** is an implementation of PSR-15 middleware library for
-PHP.
+**phossa2/middleware** is another cool middleware runner library for PHP.
 
 It requires PHP 5.4, supports PHP 7.0+ and HHVM. It is compliant with [PSR-1][PSR-1],
-[PSR-2][PSR-2], [PSR-3][PSR-3], [PSR-4][PSR-4], and the proposed [PSR-5][PSR-5],
-[PSR-15][PSR-15]
+[PSR-2][PSR-2], [PSR-3][PSR-3], [PSR-4][PSR-4], and the proposed [PSR-5][PSR-5]
 
 [PSR-1]: http://www.php-fig.org/psr/psr-1/ "PSR-1: Basic Coding Standard"
 [PSR-2]: http://www.php-fig.org/psr/psr-2/ "PSR-2: Coding Style Guide"
 [PSR-3]: http://www.php-fig.org/psr/psr-3/ "PSR-3: Logger Interface"
 [PSR-4]: http://www.php-fig.org/psr/psr-4/ "PSR-4: Autoloader"
 [PSR-5]: https://github.com/phpDocumentor/fig-standards/blob/master/proposed/phpdoc.md "PSR-5: PHPDoc"
-[PSR-15]: https://github.com/php-fig/fig-standards/blob/master/proposed/http-middleware/middleware.md "PSR-15: HTTP Middleware"
+
 Installation
 ---
 Install via the `composer` utility.
@@ -37,6 +35,14 @@ or add the following lines to your `composer.json`
 }
 ```
 
+Features
+---
+
+- <a name="anchor"></a>**Feature One**
+
+- middleware resolver: lazy object init, use container to create
+
+
 Usage
 ---
 
@@ -47,13 +53,6 @@ use Phossa2\Middleware\Middleware;
 
 $middleware = new Middleware();
 ```
-
-Features
----
-
-- <a name="anchor"></a>**Feature One**
-
-- middleware resolver: lazy object init, use container to create
 
 APIs
 ---

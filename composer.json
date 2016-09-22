@@ -14,7 +14,7 @@
     "require": {
         "php": "~5.4|~7.0",
         "psr/http-message-implementation": "^1.0.0",
-        "psr/container-implementation": "^1.0.0",
+        "container-interop/container-interop": "~1.0",
         "phossa2/shared": "^2.0.21"
     },
     "require-dev": {
