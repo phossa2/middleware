@@ -2,7 +2,7 @@
     "name": "phossa2/middleware",
     "license": "MIT",
     "type": "library",
-    "description": "An implementation of PSR-15 middleware library for PHP.",
+    "description": "Another cool middleware runner library for PHP.",
     "keywords": ["middleware", "phossa"],
     "homepage": "https://github.com/phossa2/middleware",
     "authors": [

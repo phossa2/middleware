@@ -29,14 +29,11 @@ interface QueueInterface extends MiddlewareInterface, DelegateInterface
     /**
      * Push to the end of the queue
      *
-     * @param  MiddlewareInterface $middleware
-     * @param  ConditionInterface $condition
+     * @param  MiddlewareInterface|callable $middleware
+     * @param  ConditionInterface|callable|null $condition
      * @return $this
      * @access public
      * @api
      */
-    public function push(
-        MiddlewareInterface $middleware,
-        ConditionInterface $condition = null
-    );
+    public function push($middleware, $condition = null);
 }

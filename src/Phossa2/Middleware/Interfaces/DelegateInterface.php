@@ -34,7 +34,6 @@ interface DelegateInterface
      * @param  ResponseInterface $response
      * @return ResponseInterface
      * @public
-     * @api
      */
     public function next(
         RequestInterface $request,

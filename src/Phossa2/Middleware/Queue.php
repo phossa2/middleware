@@ -55,7 +55,7 @@ class Queue extends ObjectAbstract implements QueueInterface
         foreach ($middlewares as $mw) {
             if (is_array($mw)) { // with condition
                 $this->push($mw[0], $mw[1]);
-            } else { // no condition
+            } else { // without condition
                 $this->push($mw);
             }
         }
@@ -77,13 +77,7 @@ class Queue extends ObjectAbstract implements QueueInterface
     }
 
     /**
-     * Push to the end of the queue
-     *
-     * @param  MiddlewareInterface|callable $middleware
-     * @param  ConditionInterface|callable|null $condition
-     * @return $this
-     * @access public
-     * @api
+     * {@inheritDoc}
      */
     public function push($middleware, $condition = null)
     {
@@ -113,13 +107,7 @@ class Queue extends ObjectAbstract implements QueueInterface
     }
 
     /**
-     * Dispatch the next available middleware and return the response.
-     *
-     * @param  RequestInterface $request
-     * @param  ResponseInterface $response
-     * @return ResponseInterface
-     * @public
-     * @api
+     * {@inheritDoc}
      */
     public function next(
         RequestInterface $request,
@@ -143,7 +131,7 @@ class Queue extends ObjectAbstract implements QueueInterface
     /**
      * Process/run this middleware
      *
-     * @param  mixed $middleware
+     * @param  MiddlewareInterface|callable $middleware
      * @param  RequestInterface $request
      * @param  ResponseInterface $response
      * @return ResponseInterface
@@ -178,7 +166,7 @@ class Queue extends ObjectAbstract implements QueueInterface
      * support both a callable returns bool value or an object instance of
      * ConditionInterface.
      *
-     * @param  callable|ConditionInterface $condition
+     * @param  ConditionInterface|callable $condition
      * @param  RequestInterface $request
      * @param  ResponseInterface $response
      * @return bool

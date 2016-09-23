@@ -30,7 +30,7 @@ interface MiddlewareInterface
     /**
      * Process a request and return a response.
      *
-     * @param  RequestInterface  $request
+     * @param  RequestInterface $request
      * @param  ResponseInterface $response
      * @param  DelegateInterface $next
      * @return ResponseInterface

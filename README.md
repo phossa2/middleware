@@ -20,6 +20,19 @@ It requires PHP 5.4, supports PHP 7.0+ and HHVM. It is compliant with [PSR-1][PS
 [PSR-7]: http://www.php-fig.org/psr/psr-7/ "PSR-7: HTTP Message Interfaces"
 [Container Interop]: https://github.com/container-interop/container-interop "Container-Interop"
 
+Why another middleware runner ?
+---
+
+- It was started to be a [PSR-15](https://github.com/php-fig/fig-standards/tree/master/proposed/http-middleware)
+  compatible middleware runner. But we don't like the single-pass approach of
+  PSR-15. So it turns out to be a double-pass and PSR-15ish library.
+
+- Adopted nice feature of [`condition`](#condition) from
+  [woohoolabs/harmony](https://github.com/woohoolabs/harmony). But we don't
+  agree its tight-binding with dispatcher.
+
+- A couple of cool [features](#features) unique to this library.
+
 Installation
 ---
 Install via the `composer` utility.
@@ -38,7 +51,7 @@ or add the following lines to your `composer.json`
 }
 ```
 
-Features
+<a name="features"></a>Features
 ---
 
 - Able to [use](#comp) most of the double-pass middlewares out there.
@@ -91,13 +104,13 @@ Advanced
   function (
       RequestInterface $request,
       ResponseInterface $response,
-      callable $next) : ResponseInterface
-  {
+      callable $next
+  ) : ResponseInterface {
       // ...
   }
   ```
 
-  Lots of middlewares out there, such as
+  Lots of middlewares out there then can be used without modification, such as
   [psr7-middlewares](https://github.com/oscarotero/psr7-middlewares).
 
 - <a name="queue"></a>Queue as a middleware
@@ -137,8 +150,8 @@ Advanced
 
   Or an instanceof `Phossa2\Middleware\Interfaces\ConditionInterface`.
 
-  A condition can be attached to a middleware (or middleware queue). This
-  middleware will only be executed if the condition is evaluated to `true`.
+  A condition can be attached to a middleware (or middleware queue). And the
+  middleware will be executed only if the condition is evaluated to `TRUE`.
 
   ```php
   // add condition during instantiation

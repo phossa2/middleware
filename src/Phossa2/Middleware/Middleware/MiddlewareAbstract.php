@@ -12,7 +12,7 @@
  */
 /*# declare(strict_types=1); */
 
-namespace Phossa2\Middleware\Message;
+namespace Phossa2\Middleware\Middleware;
 
 use Psr\Http\Message\RequestInterface;
 use Phossa2\Shared\Base\ObjectAbstract;
@@ -37,7 +37,7 @@ abstract class MiddlewareAbstract extends ObjectAbstract implements MiddlewareIn
      *
      * {@inheritDoc}
      */
-    final public function process(
+    public function process(
         RequestInterface $request,
         ResponseInterface $response,
         DelegateInterface $next = null
