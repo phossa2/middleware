@@ -85,7 +85,7 @@ $mws = new Queue([
 $response = $mws->process(ServerRequestFactory::fromGlobals(), new Response());
 ```
 
-Or push middleware to the queue after its instantiation,
+Or push middlewares to the queue after its instantiation,
 
 ```php
 $mws = (new Queue())
@@ -123,16 +123,15 @@ Advanced
 
   ```php
   // subqueue
-  $maintenanceQueue = new Queue([
+  $subQueue = new Queue([
       new ResponseTimeMiddleware(),
       new LoggingMiddleware(),
-      $anotherQueue,
       // ...
   ]);
 
   // main middleware queue
   $mws = new Queue([
-      $maintenaceQueue,
+      $subQueue,
       new DispatcherMiddleware(),
       // ...
   ]);
@@ -153,13 +152,13 @@ Advanced
 
   Or an instanceof `Phossa2\Middleware\Interfaces\ConditionInterface`.
 
-  A condition can be attached to a middleware (or middleware queue). And the
+  A condition can be attached to a middleware or a subqueue. And the
   middleware will be executed only if the condition is evaluated to `TRUE`.
 
   ```php
   // add condition during instantiation
   $mws = new Queue([
-      [$maintenanceQueue, new DebugTurnedOnCondition()],
+      [$subQueue, new DebugTurnedOnCondition()],
       new DispatcherMiddleware(),
   ]);
 
@@ -167,20 +166,20 @@ Advanced
   $mws->push(new AuthMiddleware(), new PathPrefixCondition('/user'));
   ```
 
-- <a name="branch"></a>Subqueue termination
+- <a name="branch"></a>Subqueue termination - branching
 
   Sometimes, user wants the whole middleware processing terminate right after
   a subqueue finishes instead of continue processing the parent queue.
 
   ```php
-  // set subqueue termination to TRUE
-  $subqueue = new Queue([...], true);
+  // use terminatable queue
+  $tQueue = new TerminateQueue([...]);
 
   $mws = new Queue([
-    [$subqueue, new SomeCondition()], // execute & terminate if condition true
-    $mw2,
-    $mw3,
-    ...
+      [$tQueue, new SomeCondition()], // execute & terminate if condition true
+      $mw2,
+      $mw3,
+      // ...
   ]);
 
   $response = $mws->process($request, $response);

@@ -130,28 +130,4 @@ class QueueTest extends Common
         $this->expectOutputString("MW_1_S MW_2_S MW_2_E MW_1_E MW_3_S MW_3_E ");
         $object->process($this->createRequest('/test'), $this->createResponse());
     }
-
-    /**
-     * Tests queue braching
-     *
-     * @cover Phossa2\Middleware\Queue::process()
-     */
-    public function testProcess3()
-    {
-        $data = [
-            // queue branching (end here)
-            [new Queue($this->data, true), function($request, $response) {return true;}],
-
-            function($request, $response, $next) {
-                echo "MW_3_S ";
-                $response = $next($request, $response);
-                echo "MW_3_E ";
-                return $response;
-            },
-        ];
-
-        $object = new Queue($data);
-        $this->expectOutputString("MW_1_S MW_2_S MW_2_E MW_1_E ");
-        $object->process($this->createRequest('/test'), $this->createResponse());
-    }
 }

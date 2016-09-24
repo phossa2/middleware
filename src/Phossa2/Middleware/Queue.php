@@ -31,8 +31,9 @@ use Phossa2\Middleware\Interfaces\MiddlewareInterface;
  *
  * @package Phossa2\Middleware
  * @author  Hong Zhang <phossa@126.com>
- * @version 2.0.0
+ * @version 2.0.1
  * @since   2.0.0 added
+ * @since   2.0.1 added $terminate
  */
 class Queue extends ObjectAbstract implements QueueInterface
 {
@@ -46,30 +47,22 @@ class Queue extends ObjectAbstract implements QueueInterface
      * @var    bool
      * @access protected
      */
-    protected $terminate;
+    protected $terminate = false;
 
     /**
      * Constructor
      *
-     * Set $terminate to `TRUE` to stop the whole middleware processing after
-     * this queue ended if this queue is part of another queue (parent queue)
-     *
      * @param  array $middlewares
-     * @param  bool $terminate  terminate the whole processing
      * @access public
      */
     public function __construct(
-        array $middlewares = [],
-        /*# bool */ $terminate = false
+        array $middlewares = []
     ) {
         // create the queue
         $this->queue = new \SplQueue();
 
         // fill the queue with middlewares
         $this->fillTheQueue($middlewares);
-
-        // termination
-        $this->terminate = $terminate;
     }
 
     /**
