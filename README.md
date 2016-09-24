@@ -56,11 +56,14 @@ or add the following lines to your `composer.json`
 
 - Able to [use](#comp) most of the double-pass middlewares out there.
 
-- Able to use a middleware [queue](#queue) (or a group of middlewares) as a
+- Able to use a middleware [queue](#queue) (a group of middlewares) as a
   generic middleware in another(or the main) queue.
 
-- Able to execute or not execute a middleware or a group of middlewares base on
-  a [condition](#condition).
+- Able to conditionally execute a middleware or a sub queue base on a
+  [condition](#condition).
+
+- Able to [branching](#branch) into a subqueue and terminate when the subqueue
+  finishes.
 
 Usage
 ---
@@ -79,7 +82,7 @@ $mws = new Queue([
 ]);
 
 // process the queue
-$mws->process(ServerRequestFactory::fromGlobals(), new Response());
+$response = $mws->process(ServerRequestFactory::fromGlobals(), new Response());
 ```
 
 Or push middleware to the queue after its instantiation,
@@ -113,13 +116,13 @@ Advanced
   Lots of middlewares out there then can be used without modification, such as
   [psr7-middlewares](https://github.com/oscarotero/psr7-middlewares).
 
-- <a name="queue"></a>Queue as a middleware
+- <a name="queue"></a>Subqueue
 
   `Phossa2\Middleware\Queue` implements the `Phossa2\Middleware\Interfaces\MiddlewareInterface`,
   so the queue itself can be used as a generic middleware.
 
   ```php
-  // a group of middlewares
+  // subqueue
   $maintenanceQueue = new Queue([
       new ResponseTimeMiddleware(),
       new LoggingMiddleware(),
@@ -127,14 +130,14 @@ Advanced
       // ...
   ]);
 
-  // the main middleware queue
+  // main middleware queue
   $mws = new Queue([
       $maintenaceQueue,
       new DispatcherMiddleware(),
       // ...
   ]);
 
-  $mws->process(ServerRequestFactory::fromGlobals(), new Response());
+  $response = $mws->process(ServerRequestFactory::fromGlobals(), new Response());
   ```
 
 - <a name="condition"></a>Use of conditions
@@ -162,6 +165,25 @@ Advanced
 
   // or during the push
   $mws->push(new AuthMiddleware(), new PathPrefixCondition('/user'));
+  ```
+
+- <a name="branch"></a>Subqueue termination
+
+  Sometimes, user wants the whole middleware processing terminate right after
+  a subqueue finishes instead of continue processing the parent queue.
+
+  ```php
+  // set subqueue termination to TRUE
+  $subqueue = new Queue([...], true);
+
+  $mws = new Queue([
+    [$subqueue, new SomeCondition()], // execute & terminate if condition true
+    $mw2,
+    $mw3,
+    ...
+  ]);
+
+  $response = $mws->process($request, $response);
   ```
 
 Change log

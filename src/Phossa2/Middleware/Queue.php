@@ -43,18 +43,33 @@ class Queue extends ObjectAbstract implements QueueInterface
     protected $queue;
 
     /**
+     * @var    bool
+     * @access protected
+     */
+    protected $terminate;
+
+    /**
      * Constructor
      *
+     * Set $terminate to `TRUE` to stop the whole middleware processing after
+     * this queue ended if this queue is part of another queue (parent queue)
+     *
      * @param  array $middlewares
+     * @param  bool $terminate  terminate the whole processing
      * @access public
      */
-    public function __construct(array $middlewares = [])
-    {
+    public function __construct(
+        array $middlewares = [],
+        /*# bool */ $terminate = false
+    ) {
         // create the queue
         $this->queue = new \SplQueue();
 
         // fill the queue with middlewares
         $this->fillTheQueue($middlewares);
+
+        // termination
+        $this->terminate = $terminate;
     }
 
     /**
@@ -100,7 +115,9 @@ class Queue extends ObjectAbstract implements QueueInterface
         $response = $this->next($request, $response);
 
         // $next is parent queue
-        return $next ? $next->next($request, $response) : $response;
+        return ($next && !$this->terminate) ?
+            $next->next($request, $response) :
+            $response;
     }
 
     /**
