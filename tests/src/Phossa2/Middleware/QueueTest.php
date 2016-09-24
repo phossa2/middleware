@@ -56,6 +56,7 @@ class QueueTest extends Common
      */
     public function test__construct()
     {
+        // construct with array of middlewares
         $object = new Queue($this->data);
         $this->expectOutputString("MW_1_S MW_2_S MW_2_E MW_1_E ");
         $object->process($this->createRequest('/test'), $this->createResponse());
@@ -63,9 +64,15 @@ class QueueTest extends Common
 
     /**
      * Tests Queue->__invoke()
+     *
+     * @cover Phossa2\Middleware\Queue::__invoke()
      */
     public function test__invoke()
     {
+        // invoke as callable
+        $object = new Queue($this->data);
+        $this->expectOutputString("MW_1_S MW_2_S MW_2_E MW_1_E ");
+        $object($this->createRequest('/test'), $this->createResponse());
     }
 
     /**
@@ -75,26 +82,53 @@ class QueueTest extends Common
      */
     public function testPush()
     {
-        // no condition
+        // push one by one
         foreach ($this->data as $mw) {
             $this->object->push($mw);
         }
+
+        // process
         $this->expectOutputString("MW_1_S MW_2_S MW_2_E MW_1_E ");
         $this->object->process($this->createRequest('/test'), $this->createResponse());
     }
 
     /**
-     * Tests Queue->process()
+     * process with conditions
+     *
+     * @cover Phossa2\Middleware\Queue::process()
      */
-    public function testProcess()
+    public function testProcess1()
     {
+        // add conditions
+        $data = $this->data;
+        $data[0] = [$data[0], function($request, $response) {return false;} ];
+
+        // process
+        $object = new Queue($data);
+        $this->expectOutputString("MW_2_S MW_2_E ");
+        $object($this->createRequest('/test'), $this->createResponse());
     }
 
     /**
-     * Tests Queue->next()
+     * Tests queue in queue
+     *
+     * @cover Phossa2\Middleware\Queue::process()
      */
-    public function testNext()
+    public function testProcess2()
     {
+        $data = [
+            new Queue($this->data), // queue as middleware
+            function($request, $response, $next) {
+                echo "MW_3_S ";
+                $response = $next($request, $response);
+                echo "MW_3_E ";
+                return $response;
+            },
+        ];
+
+        $object = new Queue($data);
+        $this->expectOutputString("MW_1_S MW_2_S MW_2_E MW_1_E MW_3_S MW_3_E ");
+        $object->process($this->createRequest('/test'), $this->createResponse());
     }
 }
 

@@ -50,30 +50,32 @@ class Queue extends ObjectAbstract implements QueueInterface
      */
     public function __construct(array $middlewares = [])
     {
+        // create the queue
         $this->queue = new \SplQueue();
 
-        foreach ($middlewares as $mw) {
-            if (is_array($mw)) { // with condition
-                $this->push($mw[0], $mw[1]);
-            } else { // without condition
-                $this->push($mw);
-            }
-        }
+        // fill the queue with middlewares
+        $this->fillTheQueue($middlewares);
     }
 
     /**
-     * For compatiblity with other middlewares
+     * Compatible with middlewares of the signature
+     *
+     * ```php
+     * fn($request, $response, callable $next)
+     * ```
      *
      * @param  RequestInterface $request
      * @param  ResponseInterface $response
+     * @param  DelegateInterface $next
      * @return ResponseInterface
      * @access public
      */
     public function __invoke(
         RequestInterface $request,
-        ResponseInterface $response
+        ResponseInterface $response,
+        DelegateInterface $next = null
     )/*# : ResponseInterface */ {
-        return $this->next($request, $response);
+        return $this->process($request, $response, $next);
     }
 
     /**
@@ -82,6 +84,7 @@ class Queue extends ObjectAbstract implements QueueInterface
     public function push($middleware, $condition = null)
     {
         $this->queue->push([$middleware, $condition]);
+        $this->queue->rewind();
         return $this;
     }
 
@@ -93,17 +96,11 @@ class Queue extends ObjectAbstract implements QueueInterface
         ResponseInterface $response,
         DelegateInterface $next = null
     )/*# : ResponseInterface */ {
-        // rewind
-        $this->queue->rewind();
-
         // process the queue
         $response = $this->next($request, $response);
 
-        if ($next) { // queue is part of another queue
-            return $next->next($request, $response);
-        } else {
-            return $response;
-        }
+        // $next is parent queue
+        return $next ? $next->next($request, $response) : $response;
     }
 
     /**
@@ -125,7 +122,28 @@ class Queue extends ObjectAbstract implements QueueInterface
                 return $this->next($request, $response);
             }
         }
-        return $response; // end of the queue reached
+        $this->queue->rewind();
+        return $response;
+    }
+
+    /**
+     * Fill the queue with middlewares
+     *
+     * @param  array $middlewares
+     * @access protected
+     */
+    protected function fillTheQueue(array $middlewares)
+    {
+        foreach ($middlewares as $mw) {
+            // with conditions specified
+            if (is_array($mw)) {
+                $this->push($mw[0], $mw[1]);
+
+            // no condition
+            } else {
+                $this->push($mw);
+            }
+        }
     }
 
     /**
@@ -143,13 +161,13 @@ class Queue extends ObjectAbstract implements QueueInterface
         RequestInterface $request,
         ResponseInterface $response
     )/*# : ResponseInterface */ {
-        // old style callable
-        if (is_callable($middleware)) {
-            return $middleware($request, $response, $this);
-
         // instance of MiddlewareInterface
-        } elseif (is_object($middleware) && $middleware instanceof MiddlewareInterface) {
+        if (is_object($middleware) && $middleware instanceof MiddlewareInterface) {
             return $middleware->process($request, $response, $this);
+
+        // old style callable
+        } elseif (is_callable($middleware)) {
+            return $middleware($request, $response, $this);
 
         // unknown middleware type
         } else {
@@ -178,13 +196,13 @@ class Queue extends ObjectAbstract implements QueueInterface
         RequestInterface $request,
         ResponseInterface $response
     )/*# : bool */ {
-        // old style callable
-        if (is_callable($condition)) {
-            return $condition($request, $response);
-
         // instanceof ConditionInterface
-        } elseif (is_object($condition) && $condition instanceof ConditionInterface) {
+        if (is_object($condition) && $condition instanceof ConditionInterface) {
             return $condition->evaluate($request, $response);
+
+        // old style callable
+        } elseif (is_callable($condition)) {
+            return $condition($request, $response);
 
         // unknown type
         } else {
