@@ -1,10 +1,11 @@
 # phossa2/middleware
 [![Build Status](https://travis-ci.org/phossa2/middleware.svg?branch=master)](https://travis-ci.org/phossa2/middleware)
 [![Code Quality](https://scrutinizer-ci.com/g/phossa2/middleware/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/phossa2/middleware/)
+[![Code Climate](https://codeclimate.com/github/phossa2/middleware/badges/gpa.svg)](https://codeclimate.com/github/phossa2/middleware)
 [![PHP 7 ready](http://php7ready.timesplinter.ch/phossa2/middleware/master/badge.svg)](https://travis-ci.org/phossa2/middleware)
 [![HHVM](https://img.shields.io/hhvm/phossa2/middleware.svg?style=flat)](http://hhvm.h4cc.de/package/phossa2/middleware)
 [![Latest Stable Version](https://img.shields.io/packagist/vpre/phossa2/middleware.svg?style=flat)](https://packagist.org/packages/phossa2/middleware)
-[![License](https://poser.pugx.org/phossa2/middleware/license)](http://mit-license.org/)
+[![License](https://img.shields.io/:license-mit-blue.svg)](http://mit-license.org/)
 
 **phossa2/middleware** is another cool middleware runner library for PHP.
 
@@ -46,7 +47,7 @@ or add the following lines to your `composer.json`
 ```json
 {
     "require": {
-       "phossa2/middleware": "^2.0.0"
+       "phossa2/middleware": "2.*"
     }
 }
 ```
@@ -203,8 +204,6 @@ Contributing
 Please see [CONTRIBUTE](CONTRIBUTE.md) for more information.
 
 Dependencies
----
-Requirements
 ---
 
 - PHP >= 5.4.0

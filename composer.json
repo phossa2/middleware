@@ -3,7 +3,7 @@
     "license": "MIT",
     "type": "library",
     "description": "Another cool middleware runner library for PHP.",
-    "keywords": ["middleware", "phossa"],
+    "keywords": ["middleware", "phossa", "phossa2", "framework"],
     "homepage": "https://github.com/phossa2/middleware",
     "authors": [
         {
@@ -12,7 +12,7 @@
         }
     ],
     "require": {
-        "php": "~5.4|~7.0",
+        "php": "~5.4.0|~7.0.0",
         "psr/http-message-implementation": "^1.0.0",
         "container-interop/container-interop": "~1.0",
         "phossa2/shared": "^2.0.21"
@@ -28,15 +28,12 @@
         "zendframework/zend-diactoros": "Allows using PSR-7 HTTP messages"
     },
     "autoload": {
-        "psr-0": { "Phossa2\\Middleware\\": "src/" }
+        "psr-4": { "Phossa2\\Middleware\\": "Middleware/" }
     },
     "scripts": {
         "test": "phpunit",
-        "check": "phpcs --standard=psr2 src/",
-        "format": "phpcbf --standard=psr2 src/"
-    },
-    "replace": {
-        "phossa/phossa-middleware": "*"
+        "check": "phpcs --standard=psr2 Middleware/",
+        "format": "phpcbf --standard=psr2 Middleware/"
     },
     "config": {
         "platform": {
@@ -45,7 +42,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "2.0-dev"
+            "dev-master": "2.1-dev"
         }
     },
     "archive": {
