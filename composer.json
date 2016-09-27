@@ -28,12 +28,12 @@
         "zendframework/zend-diactoros": "Allows using PSR-7 HTTP messages"
     },
     "autoload": {
-        "psr-4": { "Phossa2\\Middleware\\": "Middleware/" }
+        "psr-4": { "Phossa2\\Middleware\\": "src/Middleware/" }
     },
     "scripts": {
         "test": "phpunit",
-        "check": "phpcs --standard=psr2 Middleware/",
-        "format": "phpcbf --standard=psr2 Middleware/"
+        "check": "phpcs --standard=psr2 src/",
+        "format": "phpcbf --standard=psr2 src/"
     },
     "config": {
         "platform": {
