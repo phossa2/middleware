@@ -3,7 +3,7 @@
 All notable changes to this project will be documented in this file. This
 project adheres to [Semantic Versioning](http://semver.org/).
 
-### [2.1.0] 2016-09-27
+### [2.1.0] 2016-10-08
 
 - Changed
 
@@ -14,4 +14,5 @@ project adheres to [Semantic Versioning](http://semver.org/).
 
 - Added
 
+  - 2016-10-08 added `WhoopsMiddlware`
   - 2016-09-24 added `TerminateQueue`

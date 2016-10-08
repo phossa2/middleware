@@ -25,7 +25,8 @@
     "suggest": {
         "phossa2/route": "Allows routing middleware",
         "phossa2/di": "Allows PSR compatible container",
-        "zendframework/zend-diactoros": "Allows using PSR-7 HTTP messages"
+        "zendframework/zend-diactoros": "Allows using PSR-7 HTTP messages",
+        "franzl/whoops-middleware": "For pretty error handling using Whoops"
     },
     "autoload": {
         "psr-4": { "Phossa2\\Middleware\\": "src/Middleware/" }
