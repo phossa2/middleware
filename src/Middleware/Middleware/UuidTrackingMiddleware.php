@@ -41,11 +41,10 @@ class UuidTrackingMiddleware extends MiddlewareAbstract
         RequestInterface $request,
         ResponseInterface $response
     )/* : ResponseInterface */ {
+        return $response;
     }
 
     /**
-     * Doing nothing afterwards
-     *
      * {@inheritDoc}
      */
     protected function after(

@@ -61,10 +61,12 @@ abstract class MiddlewareAbstract extends ObjectAbstract implements MiddlewareIn
      * @param  ResponseInterface $response
      * @access protected
      */
-    abstract protected function before(
+    protected function before(
         RequestInterface $request,
         ResponseInterface $response
-    )/* : ResponseInterface */;
+    )/* : ResponseInterface */ {
+        return $response;
+    }
 
     /**
      * Doing stuff after next middleware called
@@ -73,8 +75,10 @@ abstract class MiddlewareAbstract extends ObjectAbstract implements MiddlewareIn
      * @param  ResponseInterface $response
      * @access protected
      */
-    abstract protected function after(
+    protected function after(
         RequestInterface $request,
         ResponseInterface $response
-    )/* : ResponseInterface */;
+    )/* : ResponseInterface */ {
+        return $response;
+    }
 }

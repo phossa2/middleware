@@ -36,6 +36,12 @@ class Phossa2SessionMiddleware extends MiddlewareAbstract
      */
     protected $session;
 
+    /**
+     * Inject the session object
+     *
+     * @param  SessionInterface $session
+     * @access public
+     */
     public function __construct(SessionInterface $session)
     {
         $this->session = $session;
@@ -45,18 +51,6 @@ class Phossa2SessionMiddleware extends MiddlewareAbstract
     }
 
     /**
-     * {@inheritDoc}
-     */
-    protected function before(
-        RequestInterface $request,
-        ResponseInterface $response
-    )/* : ResponseInterface */ {
-        return $response;
-    }
-
-    /**
-     * Doing nothing afterwards
-     *
      * {@inheritDoc}
      */
     protected function after(

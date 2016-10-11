@@ -62,16 +62,4 @@ class Phossa2RouteMiddleware extends MiddlewareAbstract
         // response in the result
         return $this->dispatcher->getResult()->getParameters()['response'];
     }
-
-    /**
-     * Doing nothing afterwards
-     *
-     * {@inheritDoc}
-     */
-    protected function after(
-        RequestInterface $request,
-        ResponseInterface $response
-    )/* : ResponseInterface */ {
-        return $response;
-    }
 }
