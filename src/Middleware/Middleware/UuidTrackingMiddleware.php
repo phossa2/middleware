@@ -35,19 +35,26 @@ use Psr\Http\Message\ResponseInterface;
 class UuidTrackingMiddleware extends MiddlewareAbstract
 {
     /**
-     * {@inheritDoc}
+     * track user cookie name
+     *
+     * @var    string
+     * @access protected
      */
-    protected function before(
-        RequestInterface $request,
-        ResponseInterface $response
-    )/* : ResponseInterface */ {
-        return $response;
+    protected $user_cookie = 'userTrack';
+
+    /**
+     * @param  string $trackName
+     * @access public
+     */
+    public function __construct(array $settings = [])
+    {
+        $this->setProperties($settings);
     }
 
     /**
      * {@inheritDoc}
      */
-    protected function after(
+    protected function before(
         RequestInterface $request,
         ResponseInterface $response
     )/* : ResponseInterface */ {
