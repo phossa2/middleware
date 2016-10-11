@@ -20,10 +20,12 @@
     "require-dev": {
         "phpunit/phpunit": "4.*",
         "squizlabs/php_codesniffer": "2.*",
+        "phossa2/session": "dev-master",
         "zendframework/zend-diactoros": "^1.3.0"
     },
     "suggest": {
         "phossa2/route": "Allows routing middleware",
+        "phossa2/session": "Allows using session",
         "phossa2/di": "Allows PSR compatible container",
         "zendframework/zend-diactoros": "Allows using PSR-7 HTTP messages",
         "franzl/whoops-middleware": "For pretty error handling using Whoops"
