@@ -44,7 +44,10 @@ class WhoopsMiddleware extends ObjectAbstract implements MiddlewareInterface
         DelegateInterface $next = null
     ) {
         try {
-            return $next->next($request, $response);
+            if ($next) {
+                return $next->next($request, $response);
+            }
+            return $response;
         } catch (\Exception $e) {
             return WhoopsRunner::handle($e, $request);
         }
