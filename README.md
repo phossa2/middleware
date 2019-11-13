@@ -1,4 +1,7 @@
-# phossa2/middleware
+# phossa2/middleware [ABANDONED]
+
+**PLEASE USE [phoole/middleware](https://github.com/phoole/middleware) library instead**
+
 [![Build Status](https://travis-ci.org/phossa2/middleware.svg?branch=master)](https://travis-ci.org/phossa2/middleware)
 [![Code Quality](https://scrutinizer-ci.com/g/phossa2/middleware/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/phossa2/middleware/)
 [![Code Climate](https://codeclimate.com/github/phossa2/middleware/badges/gpa.svg)](https://codeclimate.com/github/phossa2/middleware)
